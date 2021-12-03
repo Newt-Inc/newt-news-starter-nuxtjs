@@ -34,7 +34,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Blog'
+      default: 'News'
     },
     icon: {
       type: String,

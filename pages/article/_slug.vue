@@ -1,31 +1,12 @@
 <template>
   <main class="Container">
-    <article v-if="article" class="Article">
+    <article class="Article">
       <div class="Article_Header">
         <h1 class="Article_Title">{{article.title}}</h1>
-        <div class="Article_Data">
-          <div class="Article_Avatar">
-            <img :src="profileImageSrc" alt="" width="32" height="32" />
-          </div>
-          <div class="Article_AuthorName">{{authorName}}</div>
-          <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
-        </div>
+        <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="Article_Body" v-html="article.body"></div>
-      <div class="Article_Info">
-        <time :datetime="publishDateForAttr" class="Article_InfoDate">{{publishDate}}</time>
-      </div>
-      <aside class="Author">
-        <div class="Author_Avatar">
-          <img :src="profileImageSrc" :alt="authorName" width="48" height="48" />
-        </div>
-        <div class="Author_Text">
-          <div class="Author_Name">{{authorName}}</div>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <p class="Author_Description" v-html="authorSelfIntroduction"></p>
-        </div>
-      </aside>
     </article>
   </main>
 </template>
@@ -49,15 +30,6 @@ export default {
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
     },
-    profileImageSrc() {
-      return (this.article.author && this.article.author.profileImage && this.article.author.profileImage.src) || 'http://placehold.jp/32x32.png'
-    },
-    authorName() {
-      return (this.article.author && this.article.author.fullName) || 'NO NAME'
-    },
-    authorSelfIntroduction() {
-      return (this.article.author && this.article.author.introduction && this.article.author.introduction.html) || ''
-    }
   }
 }
 </script>
@@ -74,144 +46,21 @@ export default {
   font-size: 2.4rem;
   line-height: 1.5;
   font-weight: bold;
-  margin: 0 0 16px 0;
+  margin: 0;
   padding: 0;
-}
-.Article_Data {
-  display: flex;
-  align-items: center;
-}
-.Article_Avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin: 0 12px 0 0;
-  flex-shrink: 0;
-}
-.Article_Avatar img {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  font-family: 'object-fit: cover'; /* IE11 */
-}
-.Article_AuthorName {
-  font-weight: bold;
-  margin: 0 8px 0 0;
 }
 .Article_Date {
   color: #888;
+  margin: 8px 0 0 0;
 }
-.Article_Body >>> p {
+.Article_Body > p {
   margin: 0 0 24px 0;
 }
-.Article_Body >>> img {
+.Article_Body > img {
   max-width: 100%;
   height: auto;
   margin: 32px auto;
   display: block;
-}
-.Article_Info {
-  display: flex;
-  align-items: center;
-  margin: 40px 0;
-}
-.Article_InfoDate {
-  margin: 0 0 0 auto;
-  color: #888;
-}
-.Fav {
-  display: flex;
-  align-items: center;
-}
-.Fav_Button {
-  border: none;
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 3px 10px -8px rgba(0,0,0,1);
-  position: relative;
-  cursor: pointer;
-}
-.Fav_Button:focus {
-  outline: none;
-}
-.Fav_Button:focus::after {
-  content: "";
-  border: 2px solid #005FCC;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 20px;
-  z-index: 0;  
-}
-.Fav._on .Fav_Button:focus::after {
-  border: 2px solid #E0245E;
-}
-.Fav_Button:hover > svg {
-  fill: #888;
-}
-.Fav_Button:active {
-  transform: scale(.96);
-}
-.Fav_Button > svg {
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  height: 18px;
-  width: 16px;
-  display: block;
-  fill: #CCC;
-  transition: fill .2s;
-}
-.Fav > em {
-  font-style: normal;
-  font-weight: bold;
-  color: #888;
-  margin: 0 0 0 12px;
-}
-.Fav._on .Fav_Button > svg {
-  fill: #E0245E;
-  transition: none;
-}
-.Fav._on > em {
-  color: #E0245E;
-}
-.Author {
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  padding: 24px;
-  display: flex;
-  margin: 0 0 40px 0;
-}
-.Author_Avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  overflow: hidden;
-  margin: 0 16px 0 0;
-  flex-shrink: 0;
-}
-.Author_Avatar img {
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  font-family: 'object-fit: cover'; /* IE11 */
-}
-.Author_Name {
-  margin: 0 0 4px 0;
-  padding: 0;
-  font-weight: bold;
-  line-height: 1.5;
-}
-.Author_Description {
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
-  font-size: 1.2rem;
 }
 @media (min-width: 600px) {
   .Article {

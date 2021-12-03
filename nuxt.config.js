@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'simple-blog-starter-nuxtjs-javascript',
+    title: 'simple-news-starter-nuxtjs-javascript',
     htmlAttrs: {
       lang: 'en'
     },
@@ -52,9 +52,9 @@ export default {
   },
 
   publicRuntimeConfig: {
-    projectUid: '{プロジェクトUID}',
-    appUid: '{AppUID}',
-    token: '{CDN APIトークン}',
-    pageLimit: 12,
+    projectUid: 'app-template',
+    appUid: 'news',
+    token: 'FsYbRuhFIRHGIla5gVOyCU4JWU2UVJnRuXKTqO3CRfQ',
+    pageLimit: 5,
   }
 }
