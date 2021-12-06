@@ -5,7 +5,7 @@
       <div class="Search_Results">
         <article v-for="article in articles" :key="article._id" class="Article">
           <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
-            <h2 class="Article_Title">{{article.title}}</h2>
+            <h1 class="Article_Title">{{article.title}}</h1>
             <p class="Article_Description">{{toPlainText(article.body)}}</p>
           </NuxtLink>
         </article>
@@ -14,7 +14,7 @@
     </div>
     <div v-else-if="isLoading === false" class="Empty">
       <div class="Empty_Emoji">😵</div>
-      <h2 class="Empty_Title">Nothing found</h2>
+      <h1 class="Empty_Title">Nothing found</h1>
       <p class="Empty_Description">Sorry, but nothing matched search terms…<br>Please try again with different keywords!</p>
     </div>
   </main>
