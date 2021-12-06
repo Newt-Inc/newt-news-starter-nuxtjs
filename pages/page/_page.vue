@@ -3,7 +3,7 @@
     <Cover img="https://as1.ftcdn.net/v2/jpg/03/45/18/76/1000_F_345187680_Eo4rKPDmdB6QTaGXFwU4NE5BaLlpGooL.jpg" />
     <div class="Articles">
       <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
-      <Pagination :total="total" :current="1" />
+      <Pagination :total="total" :current="pageNumber" />
     </div>
   </main>
 </template>
