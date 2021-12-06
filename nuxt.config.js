@@ -52,9 +52,9 @@ export default {
   },
 
   publicRuntimeConfig: {
-    projectUid: 'app-template',
-    appUid: 'news',
-    token: 'FsYbRuhFIRHGIla5gVOyCU4JWU2UVJnRuXKTqO3CRfQ',
+    projectUid: '{プロジェクトUID}',
+    appUid: '{AppUID}',
+    token: '{CDN APIトークン}',
     pageLimit: 5,
   }
 }
