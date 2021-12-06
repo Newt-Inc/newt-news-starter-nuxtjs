@@ -1,7 +1,7 @@
 <template>
   <article v-if="article" class="Article">
     <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
-      <time datetime="2021-09-12" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
+      <time :datetime="formatDate(article._sys.createdAt).replace(/\//gm, '-')" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
       <h2 class="Article_Title">{{article.title}}</h2>
     </NuxtLink>
   </article>
