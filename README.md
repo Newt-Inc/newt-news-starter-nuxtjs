@@ -1,4 +1,4 @@
-# simple-news-starter-nuxtjs-javascript
+# simple-news-starter-nuxtjs
 
 [Newt](https://www.newt.so/) を利用したシンプルなニュース・プレスリリースサイト
 
