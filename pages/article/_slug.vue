@@ -53,10 +53,10 @@ export default {
   color: #888;
   margin: 8px 0 0 0;
 }
-.Article_Body > p {
+.Article_Body >>> p {
   margin: 0 0 24px 0;
 }
-.Article_Body > img {
+.Article_Body >>> img {
   max-width: 100%;
   height: auto;
   margin: 32px auto;
