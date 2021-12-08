@@ -1,12 +1,17 @@
 import { createClient } from 'newt-client-js'
-const ARTICLE_MODEL_NAME = 'article'
 
-export const getArticles = async (config, options={ search: '', page: 1, query: {} }) => {
+const ARTICLE_MODEL_NAME = 'article'
+const PAGE_LIMIT = 5
+
+export const getArticles = async (
+  config,
+  options = { search: '', page: 1, query: {} }
+) => {
   try {
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
-      apiType: 'cdn',
+      apiType: config.apiType,
     })
     const _options = {
       search: '',
@@ -15,34 +20,34 @@ export const getArticles = async (config, options={ search: '', page: 1, query: 
       ...options,
     }
     const query = {
-      ...(_options.query || {})
+      ...(_options.query || {}),
     }
     if (_options.search) {
       query.or = [
         {
           title: {
-            match: _options.search
-          }
+            match: _options.search,
+          },
         },
         {
           body: {
-            match: _options.search
-          }
-        }
+            match: _options.search,
+          },
+        },
       ]
     }
     const page = _options.page || 1
-    const limit = config.pageLimit || 10
+    const limit = PAGE_LIMIT || 10
     const skip = (page - 1) * limit
     const result = await client.getContents({
-      appUid:config.appUid,
+      appUid: config.appUid,
       modelUid: ARTICLE_MODEL_NAME,
       query: {
         depth: 2,
         limit,
         skip,
-        ...query
-      }
+        ...query,
+      },
     })
     return {
       ...result,
@@ -64,13 +69,13 @@ export const getArticleBySlug = async (config, slug) => {
       apiType: 'cdn',
     })
     const result = await client.getContents({
-      appUid:config.appUid,
+      appUid: config.appUid,
       modelUid: ARTICLE_MODEL_NAME,
       query: {
         depth: 2,
         limit: 1,
         slug,
-      }
+      },
     })
     return result.items.length === 1 ? result.items[0] : null
   } catch (err) {

@@ -1,15 +1,25 @@
 <template>
-  <main class="Container">
-    <Cover img="https://as1.ftcdn.net/v2/jpg/03/45/18/76/1000_F_345187680_Eo4rKPDmdB6QTaGXFwU4NE5BaLlpGooL.jpg" />
-    <div class="Articles">
-      <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
-      <Pagination :total="total" :current="pageNumber" />
-    </div>
-  </main>
+  <Wrapper :app="app">
+    <main class="Container">
+      <Cover
+        v-if="app && app.cover && app.cover.value"
+        :img="app.cover.value"
+      />
+      <div class="Articles">
+        <ArticleCard
+          v-for="article in articles"
+          :key="article._id"
+          :article="article"
+        />
+        <Pagination :total="total" :current="pageNumber" />
+      </div>
+    </main>
+  </Wrapper>
 </template>
 
 <script>
 import { getArticles } from 'api/article'
+import { getApp } from 'api/app'
 
 export default {
   async asyncData({ $config, redirect, params }) {
@@ -17,10 +27,12 @@ export default {
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
 
     const { articles, total } = await getArticles($config, { page: pageNumber })
+    const app = await getApp($config)
     return {
       pageNumber,
       articles,
       total,
+      app,
     }
   },
   data() {
