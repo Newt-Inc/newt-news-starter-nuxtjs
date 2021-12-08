@@ -66,7 +66,7 @@ export const getArticleBySlug = async (config, slug) => {
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
-      apiType: 'cdn',
+      apiType: config.apiType,
     })
     const result = await client.getContents({
       appUid: config.appUid,
