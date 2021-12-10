@@ -29,6 +29,11 @@ export default {
       app,
     }
   },
+  head() {
+    return {
+      title: this.article.title,
+    }
+  },
   computed: {
     publishDate() {
       return this.article._sys.createdAt

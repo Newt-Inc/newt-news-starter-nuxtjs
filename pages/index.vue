@@ -20,6 +20,7 @@
 <script>
 import { getArticles } from 'api/article'
 import { getApp } from 'api/app'
+import { getSiteName } from 'utils/head'
 
 export default {
   async asyncData({ $config }) {
@@ -29,6 +30,11 @@ export default {
       articles,
       total,
       app,
+    }
+  },
+  head() {
+    return {
+      title: getSiteName(this.app),
     }
   },
 }

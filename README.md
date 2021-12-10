@@ -1,6 +1,7 @@
-# simple-news-starter-nuxtjs
+# newt-news-starter-nuxtjs
 
 [Newt](https://www.newt.so/) を利用したシンプルなニュース・プレスリリースサイト
+<br />技術構成： Nuxt.js, JavaScript
 
 ## 開発をはじめる
 
