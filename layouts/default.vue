@@ -45,3 +45,18 @@ a:hover {
   text-decoration: none;
 }
 </style>
+
+<style>
+.Wrapper {
+  min-height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+@media all and (-ms-high-contrast: none) {
+  *::-ms-backdrop,
+  .Wrapper {
+    height: 100%;
+  } /* IE11 */
+}
+</style>
