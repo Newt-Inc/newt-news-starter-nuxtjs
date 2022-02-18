@@ -1,41 +1,34 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <ArticleCard
+        v-for="article in articles"
+        :key="article._id"
+        :article="article"
       />
-      <div class="Articles">
-        <ArticleCard
-          v-for="article in articles"
-          :key="article._id"
-          :article="article"
-        />
-        <Pagination :total="total" :current="1" />
-      </div>
-    </main>
-  </Wrapper>
+      <Pagination :total="total" :current="1" />
+    </div>
+  </main>
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config }) {
-    const { articles, total } = await getArticles($config)
-    const app = await getApp($config)
-    return {
-      articles,
-      total,
-      app,
-    }
+  async asyncData({ $config, store }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchArticles', $config)
+    return {}
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total']),
   },
 }
 </script>

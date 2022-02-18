@@ -1,45 +1,43 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <ArticleCard
+        v-for="article in articles"
+        :key="article._id"
+        :article="article"
       />
-      <div class="Articles">
-        <ArticleCard
-          v-for="article in articles"
-          :key="article._id"
-          :article="article"
-        />
-        <Pagination :total="total" :current="pageNumber" />
-      </div>
-    </main>
-  </Wrapper>
+      <Pagination :total="total" :current="pageNumber" />
+    </div>
+  </main>
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config, redirect, params }) {
+  async asyncData({ $config, store, redirect, params }) {
+    await store.dispatch('fetchApp', $config)
+
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
+    await store.dispatch('fetchArticles', {
+      ...$config,
+      page: pageNumber,
+    })
 
-    const { articles, total } = await getArticles($config, { page: pageNumber })
-    const app = await getApp($config)
     return {
       pageNumber,
-      articles,
-      total,
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total']),
   },
 }
 </script>
