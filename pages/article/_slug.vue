@@ -1,18 +1,16 @@
 <template>
-  <Wrapper :app="app" :use-h1="false">
-    <main class="Container">
-      <article class="Article">
-        <div class="Article_Header">
-          <h1 class="Article_Title">{{ currentArticle.title }}</h1>
-          <time :datetime="publishDateForAttr" class="Article_Date">{{
-            publishDate
-          }}</time>
-        </div>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="Article_Body" v-html="currentArticle.body"></div>
-      </article>
-    </main>
-  </Wrapper>
+  <main class="Container">
+    <article class="Article">
+      <div class="Article_Header">
+        <h1 class="Article_Title">{{ currentArticle.title }}</h1>
+        <time :datetime="publishDateForAttr" class="Article_Date">{{
+          publishDate
+        }}</time>
+      </div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div class="Article_Body" v-html="currentArticle.body"></div>
+    </article>
+  </main>
 </template>
 
 <script>
