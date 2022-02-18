@@ -3,41 +3,67 @@
     <main class="Container">
       <article class="Article">
         <div class="Article_Header">
-          <h1 class="Article_Title">{{ article.title }}</h1>
+          <h1 class="Article_Title">{{ currentArticle.title }}</h1>
           <time :datetime="publishDateForAttr" class="Article_Date">{{
             publishDate
           }}</time>
         </div>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="Article_Body" v-html="article.body"></div>
+        <div class="Article_Body" v-html="currentArticle.body"></div>
       </article>
     </main>
   </Wrapper>
 </template>
 
 <script>
-import { getArticleBySlug } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { formatDate } from 'utils/date'
+import { toPlainText } from '../../utils/markdown'
 
 export default {
-  async asyncData({ $config, params }) {
-    const article = await getArticleBySlug($config, params.slug)
-    const app = await getApp($config)
-    return {
-      article,
-      app,
-    }
+  async asyncData({ $config, store, params, redirect }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCurrentArticle', {
+      ...$config,
+      slug: params.slug,
+    })
+    if (!store.getters.currentArticle) return redirect(302, '/')
+    return {}
   },
   head() {
     return {
-      title: this.article.title,
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.description,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.ogImage,
+        },
+      ],
     }
   },
   computed: {
+    ...mapGetters(['app', 'currentArticle']),
+    title() {
+      if (this.currentArticle && this.currentArticle.title) {
+        return this.currentArticle.title
+      }
+      return this.app && (this.app.name || this.app.uid || 'Blog')
+    },
+    description() {
+      if (this.currentArticle && this.currentArticle.body) {
+        return toPlainText(this.currentArticle.body).slice(0, 200)
+      }
+      return ''
+    },
     publishDate() {
-      return this.article._sys.createdAt
-        ? formatDate(this.article._sys.createdAt)
+      return this.currentArticle && this.currentArticle._sys.createdAt
+        ? formatDate(this.currentArticle._sys.createdAt)
         : ''
     },
     publishDateForAttr() {
@@ -76,12 +102,24 @@ export default {
   margin: 40px 0 24px 0;
   line-height: 1.4;
 }
-.Article_Body >>> h1 { font-size: 2.4rem; }
-.Article_Body >>> h2 { font-size: 2.2rem; }
-.Article_Body >>> h3 { font-size: 2rem; }
-.Article_Body >>> h4 { font-size: 1.8rem; }
-.Article_Body >>> h5 { font-size: 1.6rem; }
-.Article_Body >>> h6 { font-size: 1.4rem; }
+.Article_Body >>> h1 {
+  font-size: 2.4rem;
+}
+.Article_Body >>> h2 {
+  font-size: 2.2rem;
+}
+.Article_Body >>> h3 {
+  font-size: 2rem;
+}
+.Article_Body >>> h4 {
+  font-size: 1.8rem;
+}
+.Article_Body >>> h5 {
+  font-size: 1.6rem;
+}
+.Article_Body >>> h6 {
+  font-size: 1.4rem;
+}
 .Article_Body >>> p {
   margin: 0 0 24px 0;
 }
@@ -108,7 +146,7 @@ export default {
   padding: 0 0 0 20px;
 }
 .Article_Body >>> blockquote {
-  border-left: 4px solid #CCC;
+  border-left: 4px solid #ccc;
   padding: 0 0 0 40px;
   margin: 0 0 20px 0;
 }
@@ -121,7 +159,8 @@ export default {
   font-size: 1.4rem;
   line-height: 1.6;
   overflow: auto;
-  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 }
 .Article_Body >>> code {
   border: 1px solid #ddd;
@@ -131,7 +170,8 @@ export default {
   margin: 0 4px;
   color: #e01d5a;
   font-size: 1.4rem;
-  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 }
 .Article_Body >>> pre code {
   border: none;

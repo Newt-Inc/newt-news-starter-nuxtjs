@@ -18,24 +18,22 @@
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config }) {
-    const { articles, total } = await getArticles($config)
-    const app = await getApp($config)
-    return {
-      articles,
-      total,
-      app,
-    }
+  async asyncData({ $config, store }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchArticles', $config)
+    return {}
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total']),
   },
 }
 </script>
