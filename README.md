@@ -1,6 +1,17 @@
-# newt-news-starter-nuxtjs
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/3859812/155490725-80ed1f06-996e-407f-8f63-fd54f0acaf14.svg" alt="Newt" width="70" height="57" />
+</p>
+<h3 align="center">
+Newt's starter
+</h3>
+<p align="center">
+  <a href="https://demo-newt-news-starter-nuxtjs.vercel.app/">Demo</a> | <a href="https://www.newt.so/">Newt</a>
+</p>
 
-[Newt](https://www.newt.so/) を利用したシンプルなニュース・プレスリリースサイト
+## 概要
+
+**newt-news-starter-nuxtjs**
+<br />Newtを利用したシンプルなニュース・プレスリリースサイト
 <br />技術構成： Nuxt.js, JavaScript
 
 ## 開発をはじめる
