@@ -83,3 +83,5 @@ $ yarn start
 | title | タイトル | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
 | body | 本文 | Markdown or リッチテキスト |  |
+
+Deploy
