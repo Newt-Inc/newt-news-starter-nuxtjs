@@ -2,7 +2,7 @@ import { resolve } from 'path'
 
 export default {
   publicRuntimeConfig: {
-    projectUid: process.env.PROJECT_UID,
+    spaceUid: process.env.PROJECT_UID,
     appUid: process.env.APP_UID,
     token: process.env.API_TOKEN,
     apiType: 'cdn',
@@ -47,7 +47,15 @@ export default {
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extend(config) {
+      config.module.rules.push({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      })
+    },
+  },
 
   alias: {
     api: resolve(__dirname, './api'),
